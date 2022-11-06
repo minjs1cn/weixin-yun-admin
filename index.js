@@ -20,12 +20,21 @@ router.get('/', async (ctx) => {
 // 获取广告收益明细
 
 router.get('/ad/publisher_adunit_general', async (ctx) => {
+	const { request } = ctx;
+	const {
+		start_date = '20201030',
+		end_date = '20201030',
+		page = 1,
+		page_size = 10,
+	} = request;
+
 	const params = qs.stringify({
-		page: 1,
-		page_size: 10,
-		start_date: '20221030',
-		end_date: '20221030',
+		page,
+		page_size,
+		start_date,
+		end_date,
 	});
+
 	const res = await new Promise((resolve, reject) => {
 		request(
 			{
