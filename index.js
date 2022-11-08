@@ -21,8 +21,12 @@ router.get('/', async (ctx) => {
 
 // 获取所有商家
 router.get('/ad/shop', async (ctx) => {
-	const res = await getShopList();
-	ctx.body = res;
+	try {
+		const res = await getShopList();
+		ctx.body = res;
+	} catch (error) {
+		ctx.body = 'error';
+	}
 });
 
 // 获取广告收益
