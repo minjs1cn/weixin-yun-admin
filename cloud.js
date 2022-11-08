@@ -12,7 +12,7 @@ exports.getShopList = async function (page = 1, size = 10) {
 		pager: { Total },
 		data,
 	} = await query(
-		`db.collection('shop').skip((${page} - 1) * ${size}).limit(size).get()`,
+		`db.collection('shop').skip(${(page - 1) * size}).limit(${size}).get()`,
 	);
 	return {
 		total: Total,
