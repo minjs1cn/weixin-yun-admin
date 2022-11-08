@@ -47,20 +47,34 @@ router.get('/ad/publisher_adunit_general', async (ctx) => {
 
 	const queryString = qs.stringify(query);
 
-	const res = await new Promise((resolve, reject) => {
-		request(
-			{
-				method: 'get',
-				url: `https://api.weixin.qq.com/publisher/stat?action=publisher_adunit_general&${queryString}`,
-			},
-			function (error, response) {
-				resolve(JSON.parse(response.body));
-			},
-		);
-	});
-	ctx.body = {
-		res,
-	};
+	function get() {
+		return new Promise((resolve, reject) => {
+			request(
+				{
+					method: 'get',
+					url: `https://api.weixin.qq.com/publisher/stat?action=publisher_adunit_general&${queryString}`,
+				},
+				function (error, response) {
+					if (error) {
+						reject(error);
+					} else {
+						resolve(JSON.parse(response.body));
+					}
+				},
+			);
+		});
+	}
+
+	try {
+		const res = await get();
+		ctx.body = {
+			res,
+		};
+	} catch (error) {
+		ctx.body = {
+			error,
+		};
+	}
 });
 
 // 更新计数
