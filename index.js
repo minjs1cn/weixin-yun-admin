@@ -5,7 +5,7 @@ const bodyParser = require('koa-bodyparser');
 const fs = require('fs');
 const path = require('path');
 const { init: initDB, Counter } = require('./db');
-const request = require('request');
+const rt = require('request');
 const qs = require('qs');
 
 const router = new Router();
@@ -49,7 +49,7 @@ router.get('/ad/publisher_adunit_general', async (ctx) => {
 
 	function get() {
 		return new Promise((resolve, reject) => {
-			request(
+			rt(
 				{
 					method: 'get',
 					url: `https://api.weixin.qq.com/publisher/stat?action=publisher_adunit_general&${queryString}`,
@@ -72,7 +72,7 @@ router.get('/ad/publisher_adunit_general', async (ctx) => {
 		};
 	} catch (error) {
 		ctx.body = {
-			error,
+			error: JSON.stringify(error),
 		};
 	}
 });
