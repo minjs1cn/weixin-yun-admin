@@ -1,4 +1,5 @@
 const cloudbase = require('@cloudbase/node-sdk');
+const { query } = require('./utils');
 
 const cloud = cloudbase.init({
 	env: 'test-3139ac',
@@ -6,6 +7,15 @@ const cloud = cloudbase.init({
 
 const db = cloud.database();
 
-exports.getShopList = function () {
-	return db.collection('shop').get();
+exports.getShopList = async function (page = 1, size = 10) {
+	const {
+		pager: { Total },
+		data,
+	} = await query(
+		`db.collection('shop').skip((${page} - 1) * ${size}).limit(size).get()`,
+	);
+	return {
+		total: Total,
+		data: data.map((item) => JSON.parse(item)),
+	};
 };

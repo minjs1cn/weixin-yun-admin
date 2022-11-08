@@ -5,9 +5,8 @@ const bodyParser = require('koa-bodyparser');
 const fs = require('fs');
 const path = require('path');
 const { init: initDB, Counter } = require('./db');
-const { getPublisherStat, query } = require('./utils');
+const { getPublisherStat } = require('./utils');
 
-const qs = require('qs');
 const { getShopList } = require('./cloud');
 
 const router = new Router();
@@ -21,8 +20,11 @@ router.get('/', async (ctx) => {
 
 // 获取所有商家
 router.get('/ad/shop', async (ctx) => {
+	const { request } = ctx;
+	const { page = 1, page_size = 10 } = request.query;
+
 	try {
-		const res = await query('db.collection("shop").get()');
+		const res = await getShopList(page, page_size);
 		ctx.body = res;
 	} catch (error) {
 		ctx.body = 'error';
