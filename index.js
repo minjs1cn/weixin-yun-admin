@@ -26,20 +26,32 @@ router.get('/ad/publisher_adunit_general', async (ctx) => {
 		end_date = '20201030',
 		page = 1,
 		page_size = 10,
+		ad_slot,
+		ad_unit_id,
 	} = request.query;
 
-	const params = qs.stringify({
+	const query = {
 		page,
 		page_size,
 		start_date,
 		end_date,
-	});
+	};
+
+	if (ad_slot) {
+		query.ad_slot = ad_slot;
+	}
+
+	if (ad_unit_id) {
+		query.ad_unit_id = ad_unit_id;
+	}
+
+	const queryString = qs.stringify(query);
 
 	const res = await new Promise((resolve, reject) => {
 		request(
 			{
 				method: 'get',
-				url: `https://api.weixin.qq.com/publisher/stat?action=publisher_adunit_general&${params}`,
+				url: `https://api.weixin.qq.com/publisher/stat?action=publisher_adunit_general&${queryString}`,
 			},
 			function (error, response) {
 				resolve(JSON.parse(response.body));
