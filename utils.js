@@ -46,3 +46,10 @@ exports.getPublisherStat = function getPublisherStat(query) {
 
 	return get(`https://api.weixin.qq.com/publisher/stat?${queryString}`);
 };
+
+exports.query = function (query) {
+	return post(`https://api.weixin.qq.com/tcb/databasequery`, {
+		env: 'test-3139ac',
+		query,
+	});
+};
