@@ -5,8 +5,10 @@ const bodyParser = require('koa-bodyparser');
 const fs = require('fs');
 const path = require('path');
 const { init: initDB, Counter } = require('./db');
-const rt = require('request');
+const { getPublisherStat } = require('./utils');
+
 const qs = require('qs');
+const { getShopList } = require('./cloud');
 
 const router = new Router();
 
@@ -17,13 +19,20 @@ router.get('/', async (ctx) => {
 	ctx.body = homePage;
 });
 
-// 获取广告收益明细
+// 获取所有商家
+router.get('/ad/shop', async (ctx) => {
+	const res = await getShopList();
+	ctx.body = res;
+});
+
+// 获取广告收益
 
 router.get('/ad/publisher_adunit_general', async (ctx) => {
 	const { request } = ctx;
 	const {
-		start_date = '20201030',
-		end_date = '20201030',
+		start_date = '2020-10-30',
+		end_date = '2020-10-30',
+		action = 'publisher_adunit_general',
 		page = 1,
 		page_size = 10,
 		ad_slot,
@@ -35,6 +44,7 @@ router.get('/ad/publisher_adunit_general', async (ctx) => {
 		page_size,
 		start_date,
 		end_date,
+		action,
 	};
 
 	if (ad_slot) {
@@ -45,36 +55,8 @@ router.get('/ad/publisher_adunit_general', async (ctx) => {
 		query.ad_unit_id = ad_unit_id;
 	}
 
-	const queryString = qs.stringify(query);
-
-	function get() {
-		return new Promise((resolve, reject) => {
-			rt(
-				{
-					method: 'get',
-					url: `https://api.weixin.qq.com/publisher/stat?action=publisher_adunit_general&${queryString}`,
-				},
-				function (error, response) {
-					if (error) {
-						reject(error);
-					} else {
-						resolve(JSON.parse(response.body));
-					}
-				},
-			);
-		});
-	}
-
-	try {
-		const res = await get();
-		ctx.body = {
-			res,
-		};
-	} catch (error) {
-		ctx.body = {
-			error: JSON.stringify(error),
-		};
-	}
+	const res = await getPublisherStat(query);
+	ctx.body = res;
 });
 
 // 更新计数
