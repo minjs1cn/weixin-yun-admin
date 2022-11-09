@@ -6,16 +6,15 @@ const cors = require('koa-cors');
 const fs = require('fs');
 const path = require('path');
 // const { init: initDB, Counter } = require('./db');
-const { getPublisherStat } = require('./utils');
+const { getPublisherStat, getHtml } = require('./utils');
 
 const { getShopList } = require('./cloud');
 
 const router = new Router();
 
-const homePage = fs.readFileSync(path.join(__dirname, 'index.html'), 'utf-8');
-
 // 首页
 router.get('/', async (ctx) => {
+	const homePage = await getHtml();
 	ctx.body = homePage;
 });
 

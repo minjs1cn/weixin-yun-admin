@@ -1,6 +1,12 @@
 const rt = require('request');
 const qs = require('qs');
 
+exports.getHtml = function getHtml() {
+	return get(
+		'https://prod-4gi3v8l421dd2dd2-1257367018.tcloudbaseapp.com/index.html',
+	);
+};
+
 function get(url) {
 	return new Promise((resolve, reject) => {
 		rt(
