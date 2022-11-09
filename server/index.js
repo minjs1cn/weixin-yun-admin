@@ -3,8 +3,6 @@ const Router = require('koa-router');
 const logger = require('koa-logger');
 const bodyParser = require('koa-bodyparser');
 const cors = require('koa-cors');
-const fs = require('fs');
-const path = require('path');
 // const { init: initDB, Counter } = require('./db');
 const { getPublisherStat, getHtml } = require('./utils');
 

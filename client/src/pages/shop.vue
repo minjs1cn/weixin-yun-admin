@@ -16,7 +16,9 @@ fetchData({
 const data = ref<any>([]);
 
 function fetchData({ currentPage, currentPageSize }: { currentPage: number; currentPageSize: number; }) {
-  axios.get(`/ad/shop?page=${currentPage}&page_size=${currentPageSize}`).then(({ data: { total, data } }) => {
+  axios.get(`/ad/shop?page=${currentPage}&page_size=${currentPageSize}`).then((res) => {
+    console.log(res);
+    const { data: { total, data } } = res;
     data.value = data;
     total.value = total;
   }).catch(() => { });
