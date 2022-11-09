@@ -1,10 +1,11 @@
-lockfileVersion: 5.4
+lockfileVersion: 5.3
 
 specifiers:
   '@cloudbase/node-sdk': ^2.9.1
   body-parser: ^1.19.1
   koa: ^2.13.4
   koa-bodyparser: ^4.3.0
+  koa-cors: ^0.0.16
   koa-logger: ^3.2.1
   koa-router: ^10.1.1
   mysql2: ^2.3.3
@@ -17,6 +18,7 @@ dependencies:
   body-parser: 1.20.1
   koa: 2.13.4
   koa-bodyparser: 4.3.0
+  koa-cors: 0.0.16
   koa-logger: 3.2.1
   koa-router: 10.1.1
   mysql2: 2.3.3
@@ -193,8 +195,6 @@ packages:
       raw-body: 2.5.1
       type-is: 1.6.18
       unpipe: 1.0.0
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /bson/4.7.0:
@@ -325,11 +325,6 @@ packages:
 
   /debug/2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
-    peerDependencies:
-      supports-color: '*'
-    peerDependenciesMeta:
-      supports-color:
-        optional: true
     dependencies:
       ms: 2.0.0
     dev: false
@@ -721,6 +716,10 @@ packages:
     dependencies:
       co: 4.6.0
       koa-compose: 4.1.0
+    dev: false
+
+  /koa-cors/0.0.16:
+    resolution: {integrity: sha512-s15knPxe3AJBi2I/ZMPL0pSqU+PLYLO6k5tI0AqClkzavowvocPlSdFUwaHNqtjHMhsGmiq2tiX/25iILJx9YA==}
     dev: false
 
   /koa-logger/3.2.1:

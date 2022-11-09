@@ -10,7 +10,7 @@ const data = ref<any>({
 const pageSize = 1;
 
 function fetchData({ currentPage, currentPageSize }: { currentPage: number; currentPageSize: number; }) {
-  axios.get(`/ad/shop?page=${currentPage}&page_size=${currentPageSize}`).then((responseData) => {
+  axios.get(`https://koa-tcp4-16914-5-1257367018.sh.run.tcloudbase.com/ad/shop?page=${currentPage}&page_size=${currentPageSize}`).then((responseData) => {
     data.value = responseData;
   }).catch(() => { });
 }
