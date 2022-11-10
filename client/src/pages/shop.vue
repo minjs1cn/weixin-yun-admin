@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import axios from 'axios';
+import { fetchShopData } from '../api';
 
 const page = ref(1);
 const pageSize = ref(10);
@@ -8,7 +8,7 @@ const total = ref(0);
 const data = ref<any>([]);
 
 
-fetchData({
+fetchShopData({
   currentPage: page.value,
   currentPageSize: pageSize.value,
 }).then(res => {
@@ -16,12 +16,6 @@ fetchData({
   total.value = res.total;
 });
 
-
-function fetchData({ currentPage, currentPageSize }: { currentPage: number; currentPageSize: number; }): Promise<{ total: number; data: any[]; }> {
-  return axios.get(`/api/ad/shop?page=${currentPage}&page_size=${currentPageSize}`).then((res) => {
-    return res.data;
-  }).catch(() => { });
-}
 
 const columns = [
   {

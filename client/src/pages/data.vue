@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import axios from 'axios';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 import locale from 'ant-design-vue/es/date-picker/locale/zh_CN';
+import { fetchAdData, fetchShopDataById } from '../api';
 type RangeValue = [Dayjs, Dayjs];
 type Income = {
   ad_slot: string;
@@ -31,21 +31,10 @@ const pageSize = ref(10);
 const total = ref(0);
 const data = ref<Income[]>([]);
 
-function fetchShopData(id: string): Promise<any> {
-  return axios.get(`/api/ad/shop?id=${id}`).then((res) => {
-    return res.data;
-  }).catch(() => { });
-}
-
-function fetchAdData({ currentPage, startDate, endDate, pageSize }: any): Promise<{ total_num: number; list: any[]; }> {
-  return axios.get(`/api/ad/data?page=${currentPage}&page_size=${pageSize}&start_date=${startDate}&end_date=${endDate}`).then((res) => {
-    return res.data;
-  }).catch(() => { });
-}
 
 
 watch(id, (cur, pre) => {
-  fetchShopData(cur).then(res => shop.value = res);
+  fetchShopDataById(cur).then(res => shop.value = res);
 }, {
   immediate: true
 });
