@@ -37,7 +37,7 @@ router.get('/ad/shop', async (ctx) => {
 
 // 获取广告收益
 
-router.get('/ad/publisher_adunit_general', async (ctx) => {
+router.get('/ad/data', async (ctx) => {
 	const { request } = ctx;
 	const {
 		start_date = '2020-10-30',
