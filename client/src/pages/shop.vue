@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import axios from 'axios';
-import { Table } from 'ant-design-vue';
 
 const page = ref(1);
 const pageSize = ref(10);
@@ -67,7 +66,7 @@ watch(page, () => {
 
 <template>
   <div class="shop">
-    <Table :data-source="data" :row-key="record => record._id" :columns="columns"
+    <a-table :data-source="data" row-key="_id" :columns="columns"
       :pagination="{ current: page, total, pageSizeOptions: [pageSize] }" @change="change">
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'action'">
@@ -75,7 +74,7 @@ watch(page, () => {
           <router-link v-else :to="`/shop`">没有数据</router-link>
         </template>
       </template>
-    </Table>
+    </a-table>
   </div>
 </template>
 
