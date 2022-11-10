@@ -20,7 +20,7 @@ exports.getShopList = async function (page = 1, size = 10) {
 	};
 };
 exports.getShopById = async function (id) {
-	const data = await query(`db.collection('shop').dov(${id}).get()`);
+	const data = await query(`db.collection('shop').doc(${id}).get()`);
 
 	try {
 		return JSON.parse(data);

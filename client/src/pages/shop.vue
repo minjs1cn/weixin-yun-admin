@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { ref, watch } from 'vue';
 import axios from 'axios';
 import { Table } from 'ant-design-vue';
 
@@ -53,6 +53,16 @@ function change(p: any) {
   console.log(p);
   page.value = p.current;
 }
+
+watch(page, () => {
+  fetchData({
+    currentPage: page.value,
+    currentPageSize: pageSize.value,
+  }).then(res => {
+    data.value = res.data;
+    total.value = res.total;
+  });
+});
 </script>
 
 <template>
