@@ -8,11 +8,16 @@ export const router = createRouter({
 		},
 		{
 			path: '/shop',
-			component: () => import('./pages/shop.vue'),
-		},
-		{
-			path: '/data/:id',
-			component: () => import('./pages/data.vue'),
+			children: [
+				{
+					path: '',
+					component: () => import('./pages/shop.vue'),
+				},
+				{
+					path: 'data/:id',
+					component: () => import('./pages/data.vue'),
+				},
+			],
 		},
 	],
 	history: createWebHistory(),

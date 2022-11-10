@@ -19,3 +19,12 @@ exports.getShopList = async function (page = 1, size = 10) {
 		data: data.map((item) => JSON.parse(item)),
 	};
 };
+exports.getShopById = async function (id) {
+	const data = await query(`db.collection('shop').dov(${id}).get()`);
+
+	try {
+		return JSON.parse(data);
+	} catch (error) {
+		return data;
+	}
+};

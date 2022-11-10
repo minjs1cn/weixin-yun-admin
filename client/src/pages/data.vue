@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { watch } from 'vue';
+import { computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 const { params } = useRoute();
 
-watch(params, (pre, cur) => {
+const id = computed(() => params.id);
+watch(id, (cur, pre) => {
   console.log(pre, cur);
 }, {
   immediate: true

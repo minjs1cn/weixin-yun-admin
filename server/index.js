@@ -6,7 +6,7 @@ const cors = require('koa-cors');
 // const { init: initDB, Counter } = require('./db');
 const { getPublisherStat, getHtml } = require('./utils');
 
-const { getShopList } = require('./cloud');
+const { getShopList, getShopById } = require('./cloud');
 
 const router = new Router();
 
@@ -19,7 +19,11 @@ router.get('/', async (ctx) => {
 // 获取所有商家
 router.get('/ad/shop', async (ctx) => {
 	const { request } = ctx;
-	const { page = 1, page_size = 10 } = request.query;
+	const { page = 1, page_size = 10, id } = request.query;
+
+	if (id) {
+		return await getShopById(id);
+	}
 
 	try {
 		const res = await getShopList(page, page_size);

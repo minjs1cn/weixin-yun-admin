@@ -1,67 +1,47 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import axios from 'axios';
-import { useOffsetPagination } from '@vueuse/core';
 import { Table } from 'ant-design-vue';
 
 const page = ref(1);
 const pageSize = ref(10);
-const total = ref(100);
+const total = ref(0);
+const data = ref<any>([]);
+
 
 fetchData({
   currentPage: page.value,
   currentPageSize: pageSize.value,
+}).then(res => {
+  data.value = res.data;
+  total.value = res.total;
 });
 
-const data = ref<any>([]);
 
-function fetchData({ currentPage, currentPageSize }: { currentPage: number; currentPageSize: number; }) {
-  axios.get(`/ad/shop?page=${currentPage}&page_size=${currentPageSize}`).then((res) => {
-    console.log(res);
-    const { data: { total, data } } = res;
-    data.value = data;
-    total.value = total;
+function fetchData({ currentPage, currentPageSize }: { currentPage: number; currentPageSize: number; }): Promise<{ total: number; data: any[]; }> {
+  return axios.get(`/api/ad/shop?page=${currentPage}&page_size=${currentPageSize}`).then((res) => {
+    return res.data;
   }).catch(() => { });
 }
-
-const {
-  currentPage,
-  currentPageSize,
-  pageCount,
-  isFirstPage,
-  isLastPage,
-  prev,
-  next,
-} = useOffsetPagination({
-  total,
-  page: 1,
-  pageSize,
-  onPageChange: fetchData,
-  onPageSizeChange: fetchData,
-});
-
-onMounted(() => {
-  fetchData({
-    currentPage: 1,
-    currentPageSize: 10,
-  });
-});
 
 const columns = [
   {
     title: '名称',
     dataIndex: 'name',
     key: 'name',
+    width: '20%',
   },
   {
     title: '电话',
     dataIndex: 'mobile',
     key: 'mobile',
+    width: '20%',
   },
   {
     title: '地址',
     dataIndex: 'address',
     key: 'address',
+    width: '20%',
   },
   {
     title: 'Action',
@@ -71,22 +51,18 @@ const columns = [
 
 function change(p: any) {
   console.log(p);
-  currentPage.value = p.current;
+  page.value = p.current;
 }
 </script>
 
 <template>
   <div class="shop">
-    <Table :dataSource="data" :columns="columns" :pagination="{ current: currentPage, total, pageSizeOptions: [10] }"
-      @change="change">
+    <Table :data-source="data" :row-key="record => record._id" :columns="columns"
+      :pagination="{ current: page, total, pageSizeOptions: [pageSize] }" @change="change">
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'action'">
-          <router-link :to="`/shop/${record.id}`">数据</router-link>
-        </template>
-        <template v-else>
-          <span>
-            {{ record.name }}
-          </span>
+          <router-link v-if="record.ad_banner_id || record.ad_jili_id" :to="`/shop/data/${record._id}`">数据</router-link>
+          <router-link v-else :to="`/shop`">没有数据</router-link>
         </template>
       </template>
     </Table>
