@@ -48,7 +48,7 @@ function change(p: any) {
 }
 
 watch(page, () => {
-  fetchData({
+  fetchShopData({
     currentPage: page.value,
     currentPageSize: pageSize.value,
   }).then(res => {
