@@ -22,7 +22,9 @@ router.get('/ad/shop', async (ctx) => {
 	const { page = 1, page_size = 10, id } = request.query;
 
 	if (id) {
-		return await getShopById(id);
+		const res = await getShopById(id);
+		ctx.body = res;
+		return;
 	}
 
 	try {
