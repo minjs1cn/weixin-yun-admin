@@ -6,7 +6,7 @@ import { Table } from 'ant-design-vue';
 
 const { params } = useRoute();
 const shop = ref<any>({});
-const id = computed(() => params.id);
+const id = computed<string>(() => params.id as string);
 const ad_banner_id = computed(() => shop.ad_banner_id);
 const ad_jili_id = computed(() => shop.ad_banner_id);
 
@@ -32,7 +32,7 @@ function fetchAdData({ currentPage, currentPageSize, startDate, endDate }: any):
 
 watch(id, (cur, pre) => {
   console.log(cur, pre);
-  fetchShopData(cur).then(res => shop.value = res);
+  fetchShopData(cur).then(res => shop.value = res[0]);
 }, {
   immediate: true
 });
@@ -90,6 +90,9 @@ function change(p: any) {
 
 <template>
   <div>
+    <div class="header">
+      <a-time-range-picker />
+    </div>
     <Table :data-source="data" :row-key="record => record._id" :columns="columns"
       :pagination="{ current: page, total, pageSizeOptions: [pageSize] }" @change="change">
       <template #bodyCell="{ column, record }">
@@ -101,3 +104,9 @@ function change(p: any) {
     </Table>
   </div>
 </template>
+
+<style scoped lang="less">
+.header {
+  padding: 20px 0;
+}
+</style>
