@@ -14,7 +14,7 @@ export const router = createRouter({
 					component: () => import('./pages/shop.vue'),
 				},
 				{
-					path: 'data/:id',
+					path: ':id/data',
 					component: () => import('./pages/data.vue'),
 				},
 			],

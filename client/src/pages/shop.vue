@@ -71,7 +71,7 @@ watch(page, () => {
       :pagination="{ current: page, total, pageSizeOptions: [pageSize] }" @change="change">
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'action'">
-          <router-link v-if="record.ad_banner_id || record.ad_jili_id" :to="`/shop/data/${record._id}`">数据</router-link>
+          <router-link v-if="record.ad_banner_id || record.ad_jili_id" :to="`/shop/${record._id}/data`">数据</router-link>
           <router-link v-else :to="`/shop`">没有数据</router-link>
         </template>
       </template>
